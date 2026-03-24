@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] - 2026-03-24
+
+### Added
+
+- Custom Sass importer (`FontawesomeSassImporter`) that strips populated `$icons` and `$brand-icons` maps from FontAwesome's `variables.scss` in memory at compile time
+
 ## [0.1.3] - 2026-03-24
 
 ### Changed
