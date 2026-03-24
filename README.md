@@ -47,7 +47,7 @@ vendor/
       fa-thin-100.woff2
 ```
 
-> **Note:** In `vendor/fontawesome/scss/variables.scss`, change `$icons` and `$brand-icons` to empty maps with `!default` so the subsetter can inject only the used icons.
+The gem's custom Sass importer automatically handles FontAwesome's `variables.scss` in memory — it strips the large populated `$icons` and `$brand-icons` maps and replaces them with empty `!default` maps at compile time. **No manual edits to your vendor FontAwesome files are needed.**
 
 ## Features
 

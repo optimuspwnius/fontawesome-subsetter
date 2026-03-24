@@ -3,8 +3,50 @@ require "open3"
 require "fileutils"
 require "yaml"
 require "set"
+require "uri"
 
 module FontawesomeSubsetter
+
+  # Custom Sass importer that intercepts FontAwesome SCSS file loads.
+  # Strips the populated $icons and $brand-icons maps from variables.scss in memory,
+  # replacing them with empty !default maps so the subsetter can inject only used icons.
+  # This avoids requiring users to manually edit their vendor FontAwesome files.
+  class FontawesomeSassImporter
+
+    def initialize(scss_dir)
+      @scss_dir = File.expand_path(scss_dir.to_s)
+    end
+
+    def canonicalize(url, context)
+      if url.start_with?("file://")
+        path = URI.parse(url).path
+      elsif context.containing_url
+        base = File.dirname(URI.parse(context.containing_url.to_s).path)
+        path = File.expand_path(url, base)
+      else
+        return nil
+      end
+
+      candidates = [path, "#{path}.scss", File.join(File.dirname(path), "_#{File.basename(path)}.scss")]
+      match = candidates.find { |c| File.exist?(c) && c.start_with?(@scss_dir) }
+      return nil unless match
+
+      "file://#{match}"
+    end
+
+    def load(url)
+      path = URI.parse(url).path
+      content = File.read(path)
+
+      if File.basename(path, ".scss").delete_prefix("_") == "variables"
+        content = content.sub(/^\$icons\s*:\s*\(.*?^\)\s*;/m, "$icons: () !default;")
+        content = content.sub(/^\$brand-icons\s*:\s*\(.*?^\)\s*;/m, "$brand-icons: () !default;")
+      end
+
+      { contents: content, syntax: :scss }
+    end
+
+  end
 
   class Subsetter
 
@@ -116,8 +158,18 @@ module FontawesomeSubsetter
         default_scss_template(styles)
       end
 
-      # Compile the dynamic SCSS. `load_paths` tells Sass where to find the imported files.
-      compiled_css = Sass.compile_string(scss_string, style: :compressed, load_paths: [ @root ]).css
+      # Compile the dynamic SCSS with a custom importer that strips populated icon maps
+      # from variables.scss in memory, so users don't need to modify their vendor files.
+      scss_dir = @root.join("vendor", "fontawesome", "scss").to_s
+      fa_importer = FontawesomeSassImporter.new(scss_dir)
+
+      compiled_css = Sass.compile_string(
+        scss_string,
+        style: :compressed,
+        importer: fa_importer,
+        importers: [fa_importer],
+        url: "file://#{@root}/fontawesome_subsetter_input.scss"
+      ).css
 
       # Forcefully remove all comments, including "loud" /*! ... */ comments for licenses.
       compiled_css = compiled_css.gsub(/\/\*!.*?\*\//m, "")
@@ -184,7 +236,7 @@ module FontawesomeSubsetter
     def default_scss_template(styles)
       <<-SCSS
 
-        // NOTE: $icons and $brand-icons were changed in variables to just be empty arrays with !default.
+        // The custom importer strips populated $icons/$brand-icons maps from variables.scss in memory.
         @use "./vendor/fontawesome/scss/variables" with (
           $font-path: "webfonts",
           $icons: (#{ @styles.except("brands").values.reduce(Set.new) { | all_icons, style | all_icons.merge(style[:sass_icon_cache]) }.join(", ") }),
