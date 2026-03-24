@@ -1,0 +1,106 @@
+home:
+  unicode: "f015"
+  changes:
+    - "1.0.0"
+  label: "Home"
+  voted: false
+  search:
+    terms:
+      - house
+  styles:
+    - solid
+    - regular
+  aliases:
+    names:
+      - house
+    unicodes:
+      secondary:
+        - "10f015"
+
+arrow-left:
+  unicode: "f060"
+  changes:
+    - "1.0.0"
+  label: "Arrow Left"
+  voted: false
+  search:
+    terms:
+      - back
+  styles:
+    - solid
+  aliases:
+    names: []
+    unicodes:
+      secondary: []
+
+star:
+  unicode: "f005"
+  changes:
+    - "1.0.0"
+  label: "Star"
+  voted: false
+  search:
+    terms:
+      - favorite
+  styles:
+    - solid
+    - regular
+    - brands
+  aliases:
+    names: []
+    unicodes:
+      secondary:
+        - "10f005"
+
+github:
+  unicode: "f09b"
+  changes:
+    - "1.0.0"
+  label: "GitHub"
+  voted: false
+  search:
+    terms:
+      - git
+  styles:
+    - brands
+  aliases:
+    names: []
+    unicodes:
+      secondary: []
+
+spinner:
+  unicode: "f110"
+  changes:
+    - "1.0.0"
+  label: "Spinner"
+  voted: false
+  search:
+    terms:
+      - loading
+  styles:
+    - solid
+    - duotone
+  aliases:
+    names:
+      - loading
+    unicodes:
+      secondary:
+        - "10f110"
+
+check:
+  unicode: "f00c"
+  changes:
+    - "1.0.0"
+  label: "Check"
+  voted: false
+  search:
+    terms:
+      - confirm
+  styles:
+    - solid
+    - light
+    - thin
+  aliases:
+    names: []
+    unicodes:
+      secondary: []
