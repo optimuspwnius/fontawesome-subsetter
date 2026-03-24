@@ -47,8 +47,6 @@ vendor/
       fa-thin-100.woff2
 ```
 
-The gem's custom Sass importer automatically handles FontAwesome's `variables.scss` in memory — it strips the large populated `$icons` and `$brand-icons` maps and replaces them with empty `!default` maps at compile time. **No manual edits to your vendor FontAwesome files are needed.**
-
 ## Features
 
 ### 1. Icon Helper
