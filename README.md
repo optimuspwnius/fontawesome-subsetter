@@ -22,7 +22,7 @@ Then run `bundle install`.
 
 ### Directory Structure
 
-The gem expects FontAwesome Pro files in your project at:
+The gem expects FontAwesome files in your project at:
 
 ```
 vendor/

@@ -6,8 +6,8 @@ Gem::Specification.new do | spec |
   spec.authors       = ["16554289+optimuspwnius@users.noreply.github.com"]
   spec.email         = ["16554289+optimuspwnius@users.noreply.github.com"]
 
-  spec.summary       = "FontAwesome Pro subsetter for Rails — tree-shakes unused icons from font files and CSS."
-  spec.description   = "Scans your views and helpers for icon() calls, subsets FontAwesome Pro WOFF2 fonts via pyftsubset, " \
+  spec.summary       = "FontAwesome subsetter for Rails — tree-shakes unused icons from font files and CSS."
+  spec.description   = "Scans your views and helpers for icon() calls, subsets FontAwesome WOFF2 fonts via pyftsubset, " \
                         "and generates minimal CSS. Includes a Puma plugin for development watch mode, a Rails view helper, " \
                         "and a rake task that hooks into assets:precompile."
   spec.homepage      = "https://github.com/optimuspwnius/fontawesome-subsetter"
@@ -30,8 +30,8 @@ Gem::Specification.new do | spec |
   spec.add_dependency "railties", ">= 7.0"
   spec.add_dependency "actionview", ">= 7.0"
   spec.add_dependency "sass-embedded", ">= 1.0"
+  spec.add_dependency "listen", ">= 3.0"
 
   # Optional — only needed for development watch mode
-  spec.add_development_dependency "listen", ">= 3.0"
   spec.add_development_dependency "puma", ">= 5.0"
 end
