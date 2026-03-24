@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION=$(ruby -r ./lib/fontawesome_subsetter/version -e "puts FontawesomeSubsetter::VERSION")
+TAG="v${VERSION}"
+
+echo "Releasing fontawesome_subsetter ${TAG}"
+
+echo "Running tests..."
+bundle exec rake test
+
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "Committing all changes..."
+  git add -A
+  git commit -m "Release ${TAG}"
+else
+  echo "Working tree clean, nothing to commit."
+fi
+
+echo "Pushing to origin..."
+git push origin main
+
+echo "Tagging ${TAG}, building gem, and pushing to RubyGems..."
+bundle exec rake release
+
+echo "Done!"
+  
