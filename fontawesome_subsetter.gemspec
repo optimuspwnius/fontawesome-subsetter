@@ -32,6 +32,5 @@ Gem::Specification.new do | spec |
   spec.add_dependency "sass-embedded", ">= 1.0"
   spec.add_dependency "listen", ">= 3.0"
 
-  # Optional — only needed for development watch mode
   spec.add_development_dependency "puma", ">= 5.0"
 end

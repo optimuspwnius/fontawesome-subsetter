@@ -104,6 +104,8 @@ module FontawesomeSubsetter
     end
 
     def subset_stylesheets
+      require "sass-embedded"
+
       styles = @styles.values.select { it[:sass_icon_cache].any? }
 
       scss_template = FontawesomeSubsetter.configuration.scss_template
