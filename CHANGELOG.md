@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 - Renamed Puma plugin from `fontawesome` to `fontawesome_subsetter` to match the gem name
 
+### Fixed
+
+- Removed stub `class FontawesomeSubsetter` from Puma plugin file that clashed with the gem's module definition
+
 ## [0.1.4] - 2026-03-24
 
 ### Added

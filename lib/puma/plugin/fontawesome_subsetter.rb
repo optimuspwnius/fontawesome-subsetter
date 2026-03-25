@@ -1,8 +1,5 @@
 require "puma/plugin"
 
-class FontawesomeSubsetter
-end
-
 Puma::Plugin.create do
 
   attr_reader :puma_pid, :fontawesome_pid, :log_writer
