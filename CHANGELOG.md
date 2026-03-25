@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Changed
 
 - Renamed Puma plugin from `fontawesome` to `fontawesome_subsetter` to match the gem name
+- Replaced deprecated Puma event hooks `on_booted`/`on_stopped` with `after_booted`/`after_stopped`
 
 ### Fixed
 

@@ -8,7 +8,7 @@ Puma::Plugin.create do
     @log_writer = launcher.log_writer
     @puma_pid = $PROCESS_ID
 
-    launcher.events.on_booted do
+    launcher.events.after_booted do
 
       @fontawesome_pid = fork do
 
@@ -38,7 +38,7 @@ Puma::Plugin.create do
 
     end
 
-    launcher.events.on_stopped { stop_fontawesome }
+    launcher.events.after_stopped { stop_fontawesome }
   end
 
   private
