@@ -1,6 +1,6 @@
 # FontAwesome Subsetter
 
-A Rails gem that tree-shakes FontAwesome — scans your views and helpers for `icon()` calls, subsets WOFF2 font files to include only used glyphs, and generates minimal CSS.
+A Rails gem that tree-shakes FontAwesome 7 — scans your views and helpers for `icon()` calls, subsets WOFF2 font files to include only used glyphs, and generates minimal CSS.
 
 ## Requirements
 
@@ -65,7 +65,7 @@ Add to your `config/puma.rb`:
 
 ```ruby
 if ENV.fetch("RAILS_ENV", "development") == "development"
-  plugin :fontawesome
+  plugin :fontawesome_subsetter
 end
 ```
 

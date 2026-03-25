@@ -1,6 +1,6 @@
 require "puma/plugin"
 
-class Fontawesome
+class FontawesomeSubsetter
 end
 
 Puma::Plugin.create do
