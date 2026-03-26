@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Added
+
+- Kamal/Docker deployment section in README with Dockerfile instructions for `pyftsubset`
+
+### Removed
+
+- Empty `app/` directory and its reference in gemspec
+
 ### Changed
 
 - Renamed Puma plugin from `fontawesome` to `fontawesome_subsetter` to match the gem name

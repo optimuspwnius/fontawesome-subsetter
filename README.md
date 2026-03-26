@@ -106,6 +106,25 @@ FontawesomeSubsetter.configure do | config |
 end
 ```
 
+## Deploying with Kamal (Docker)
+
+`pyftsubset` must be available during `assets:precompile` in your Docker build stage. Add the following to the **build** stage of your Dockerfile:
+
+```dockerfile
+# In the build stage, install pyftsubset for font subsetting
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y python3 python3-pip python3-venv pipx && \
+    pipx ensurepath && \
+    pipx install fonttools && \
+    pipx inject fonttools brotli && \
+    ln -s /root/.local/bin/pyftsubset /usr/local/bin/pyftsubset && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+```
+
+Font subsetting runs automatically during `assets:precompile`, so no additional Dockerfile steps are needed — just make sure the line above appears before your `RUN ... assets:precompile` step.
+
+The final (runtime) stage does **not** need `pyftsubset`; subsetted fonts are already baked into the image.
+
 ## License
 
 [MIT](LICENSE.txt) — Copyright (c) 2026
