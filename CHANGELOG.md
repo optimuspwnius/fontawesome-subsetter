@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Added
 
 - Kamal/Docker deployment section in README with Dockerfile instructions for `pyftsubset`
+- `config.variables` option to inject additional SCSS variables into the `@use "variables" with (...)` block of the default SCSS template
+- `config.features` option to control which optional FontAwesome SCSS partials (`sizing`, `widths`, `list`, `bordered`, `animated`, `rotated-flipped`, `stacked`) are included. Defaults to `:all`
 
 ### Removed
 

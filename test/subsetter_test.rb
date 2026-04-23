@@ -200,6 +200,73 @@ class SubsetterTest < Minitest::Test
     assert all_unchanged, "no styles should be changed for a file without icons"
   end
 
+  # --- default_scss_template variable injection ---
+
+  def test_default_scss_template_injects_configured_variables
+    FontawesomeSubsetter.configuration.variables = {
+      "fa-font-display" => "swap",
+      "fa-css-prefix"   => '"fa"'
+    }
+
+    scss = @subsetter.send(:default_scss_template, [])
+    assert_includes scss, "$fa-font-display: swap,"
+    assert_includes scss, '$fa-css-prefix: "fa",'
+  end
+
+  def test_default_scss_template_accepts_symbol_keys
+    FontawesomeSubsetter.configuration.variables = { :"fa-font-display" => "block" }
+
+    scss = @subsetter.send(:default_scss_template, [])
+    assert_includes scss, "$fa-font-display: block,"
+  end
+
+  def test_default_scss_template_preserves_leading_dollar_sign
+    FontawesomeSubsetter.configuration.variables = { "$fa-font-display" => "swap" }
+
+    scss = @subsetter.send(:default_scss_template, [])
+    assert_includes scss, "$fa-font-display: swap,"
+    refute_includes scss, "$$fa-font-display"
+  end
+
+  def test_default_scss_template_with_no_variables
+    scss = @subsetter.send(:default_scss_template, [])
+    refute_includes scss, "$fa-font-display"
+    assert_includes scss, '$font-path: "webfonts"'
+  end
+
+  def test_default_scss_template_default_features_all
+    scss = @subsetter.send(:default_scss_template, [])
+    FontawesomeSubsetter::Configuration::AVAILABLE_FEATURES.each do |feature|
+      assert_includes scss, "@use \"./vendor/fontawesome/scss/#{feature}\";"
+    end
+  end
+
+  def test_default_scss_template_with_subset_of_features
+    FontawesomeSubsetter.configuration.features = ["animated", "sizing"]
+
+    scss = @subsetter.send(:default_scss_template, [])
+    assert_includes scss, "@use \"./vendor/fontawesome/scss/animated\";"
+    assert_includes scss, "@use \"./vendor/fontawesome/scss/sizing\";"
+    refute_includes scss, "@use \"./vendor/fontawesome/scss/widths\";"
+    refute_includes scss, "@use \"./vendor/fontawesome/scss/bordered\";"
+  end
+
+  def test_default_scss_template_with_empty_features
+    FontawesomeSubsetter.configuration.features = []
+
+    scss = @subsetter.send(:default_scss_template, [])
+    FontawesomeSubsetter::Configuration::AVAILABLE_FEATURES.each do |feature|
+      refute_includes scss, "@use \"./vendor/fontawesome/scss/#{feature}\";"
+    end
+  end
+
+  def test_default_scss_template_accepts_symbol_features
+    FontawesomeSubsetter.configuration.features = [:animated]
+
+    scss = @subsetter.send(:default_scss_template, [])
+    assert_includes scss, "@use \"./vendor/fontawesome/scss/animated\";"
+  end
+
   private
 
   def style_by_prefix(prefix)

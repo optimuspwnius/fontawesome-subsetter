@@ -234,28 +234,32 @@ module FontawesomeSubsetter
     private
 
     def default_scss_template(styles)
-      <<-SCSS
+      extra_vars  = FontawesomeSubsetter.configuration.variables || {}
+      extra_lines = extra_vars.map { | name, value | "  #{ name.to_s.start_with?('$') ? name : "$#{ name }" }: #{ value }," }.join("\n")
 
+      icons       = @styles.except("brands").values.reduce(Set.new) { | all_icons, style | all_icons.merge(style[:sass_icon_cache]) }.join(", ")
+      brand_icons = @styles["brands"][:sass_icon_cache].to_a.join(", ")
+      style_uses  = styles.map { | s | "@use \"./vendor/fontawesome/scss/#{ s[:name] }.scss\";" }.join("\n")
+
+      features         = FontawesomeSubsetter.configuration.features
+      enabled_features = features == :all ? Configuration::AVAILABLE_FEATURES : Array(features).map(&:to_s)
+      feature_uses     = enabled_features.map { | f | "@use \"./vendor/fontawesome/scss/#{ f }\";" }.join("\n")
+
+      <<~SCSS
         // The custom importer strips populated $icons/$brand-icons maps from variables.scss in memory.
         @use "./vendor/fontawesome/scss/variables" with (
           $font-path: "webfonts",
-          $icons: (#{ @styles.except("brands").values.reduce(Set.new) { | all_icons, style | all_icons.merge(style[:sass_icon_cache]) }.join(", ") }),
-          $brand-icons: (#{ @styles["brands"][:sass_icon_cache].to_a.join(", ") }));
+        #{ extra_lines }
+          $icons: (#{ icons }),
+          $brand-icons: (#{ brand_icons }));
 
         @use "./vendor/fontawesome/scss/functions";
         @use "./vendor/fontawesome/scss/mixins";
         @use "./vendor/fontawesome/scss/core";
-        // @use "./vendor/fontawesome/scss/sizing";
-        // @use "./vendor/fontawesome/scss/widths";
-        // @use "./vendor/fontawesome/scss/list";
-        // @use "./vendor/fontawesome/scss/bordered";
-        @use "./vendor/fontawesome/scss/animated";
-        // @use "./vendor/fontawesome/scss/rotated-flipped";
-        // @use "./vendor/fontawesome/scss/stacked";
+        #{ feature_uses }
         @use "./vendor/fontawesome/scss/icons";
 
-        #{ styles.map { "@use \"./vendor/fontawesome/scss/#{ it[:name] }.scss\";" }.join("\n") }
-
+        #{ style_uses }
       SCSS
     end
 

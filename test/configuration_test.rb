@@ -137,4 +137,30 @@ class ConfigurationTest < Minitest::Test
     assert_nil config.styles
   end
 
+  def test_variables_default_is_empty_hash
+    config = FontawesomeSubsetter.configuration
+    assert_equal({}, config.variables)
+  end
+
+  def test_variables_can_be_set
+    FontawesomeSubsetter.configure do |config|
+      config.variables = { "fa-font-display" => "swap" }
+    end
+
+    assert_equal({ "fa-font-display" => "swap" }, FontawesomeSubsetter.configuration.variables)
+  end
+
+  def test_features_default_is_all
+    config = FontawesomeSubsetter.configuration
+    assert_equal :all, config.features
+  end
+
+  def test_features_can_be_set_to_array
+    FontawesomeSubsetter.configure do |config|
+      config.features = ["animated", "sizing"]
+    end
+
+    assert_equal ["animated", "sizing"], FontawesomeSubsetter.configuration.features
+  end
+
 end

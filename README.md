@@ -103,6 +103,18 @@ FontawesomeSubsetter.configure do | config |
 
   # Custom SCSS template (optional — receives @styles hash, must return SCSS string)
   # config.scss_template = ->(styles) { "..." }
+
+  # Additional SCSS variables to inject into the `@use "variables" with (...)` block.
+  # Keys may be symbols/strings (with or without leading `$`). Values are raw SCSS.
+  # config.variables = {
+  #   "fa-font-display" => "swap",
+  #   "fa-css-prefix"   => '"fa"'
+  # }
+
+  # Optional presentational FontAwesome SCSS partials to include. Defaults to `:all`.
+  # Available: "sizing", "widths", "list", "bordered", "animated", "rotated-flipped", "stacked"
+  # (Core partials — functions, mixins, core, icons — are always included.)
+  # config.features = ["animated"]
 end
 ```
 

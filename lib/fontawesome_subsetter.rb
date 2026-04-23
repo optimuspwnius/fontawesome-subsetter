@@ -22,12 +22,19 @@ module FontawesomeSubsetter
   class Configuration
 
     attr_accessor :meta_path, :fonts_dir, :build_dir, :scan_globs, :watch_paths,
-                  :watch_file_type_regex, :icon_regex, :scss_template, :styles
+                  :watch_file_type_regex, :icon_regex, :scss_template, :styles,
+                  :variables, :features
+
+    # Optional presentational FontAwesome SCSS partials.
+    # Core partials (functions, mixins, core, icons) are always included.
+    AVAILABLE_FEATURES = ["sizing", "widths", "list", "bordered", "animated", "rotated-flipped", "stacked"].freeze
 
     def initialize
       @scan_globs = ["app/views/**/*.slim", "app/helpers/**/*.rb"]
       @watch_file_type_regex = /\.(slim|rb)$/
       @icon_regex = /icon\(\s*:(?<prefix>fas|far|fab|fad|fal|fat)\s*,\s*:(?<icon>[\w_\-]+)\b/
+      @variables = {}
+      @features = :all
     end
 
   end
