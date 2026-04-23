@@ -4,26 +4,40 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.1.9] - 2026-04-23
+
+### Added
+
+- `config.variables` option to inject additional SCSS variables into the `@use "variables" with (...)` block of the default SCSS template
+- `config.features` option to control which optional FontAwesome SCSS partials (`sizing`, `widths`, `list`, `bordered`, `animated`, `rotated-flipped`, `stacked`) are included. Defaults to `:all`
+
+## [0.1.8] - 2026-03-26
 
 ### Added
 
 - Kamal/Docker deployment section in README with Dockerfile instructions for `pyftsubset`
-- `config.variables` option to inject additional SCSS variables into the `@use "variables" with (...)` block of the default SCSS template
-- `config.features` option to control which optional FontAwesome SCSS partials (`sizing`, `widths`, `list`, `bordered`, `animated`, `rotated-flipped`, `stacked`) are included. Defaults to `:all`
 
 ### Removed
 
-- Empty `app/` directory and its reference in gemspec
+- Empty `app/` directory reference in gemspec
+
+## [0.1.7] - 2026-03-25
 
 ### Changed
 
-- Renamed Puma plugin from `fontawesome` to `fontawesome_subsetter` to match the gem name
 - Replaced deprecated Puma event hooks `on_booted`/`on_stopped` with `after_booted`/`after_stopped`
+
+## [0.1.6] - 2026-03-25
 
 ### Fixed
 
 - Removed stub `class FontawesomeSubsetter` from Puma plugin file that clashed with the gem's module definition
+
+## [0.1.5] - 2026-03-25
+
+### Changed
+
+- Renamed Puma plugin from `fontawesome` to `fontawesome_subsetter` to match the gem name
 
 ## [0.1.4] - 2026-03-24
 
